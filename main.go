@@ -2,12 +2,9 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"todo-module/config"
+	"todo-module/app/models"
 )
 
 func main() {
-	fmt.Println(config.Config.Port)
-
-	log.Println("test")
+	fmt.Println(models.Db)
 }
