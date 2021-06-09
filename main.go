@@ -8,18 +8,14 @@ import (
 func main() {
 	fmt.Println(models.Db)
 
-	// u := &models.User{}
-	// u.Name = "test"
-	// u.Email = "test@example.com"
-	// u.Password = "testpassword"
-	// fmt.Println(u)
-	// u.CreateUser()
-
-	u, _ := models.GetUser(1)
+	u := &models.User{}
+	u.Name = "test"
+	u.Email = "test@example.com"
+	u.Password = "testpassword"
 	fmt.Println(u)
+	u.CreateUser()
 
-	u.DeleteUser()
+	user, _ := models.GetUser(2)
 
-	u, _ = models.GetUser(1)
-	fmt.Println(u)
+	user.CreateTodo("First Todo")
 }
