@@ -8,7 +8,7 @@ import (
 func main() {
 	fmt.Println(models.Db)
 
-	t, _ := models.GetTodo(1)
-	t.Content = "updated todo"
-	t.UpdateTodo()
+	t, _ := models.GetTodo(3)
+
+	t.DeleteTodo()
 }

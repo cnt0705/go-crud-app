@@ -14,7 +14,6 @@ type Todo struct {
 
 func (u *User) CreateTodo(content string) (err error) {
 	cmd := `insert into todos (content, user_id, created_at) values (?, ?, ?)`
-
 	_, err = Db.Exec(cmd, content, u.ID, time.Now())
 
 	if err != nil {
@@ -78,6 +77,17 @@ func (u *User) GetTodosByUser() (todos []Todo, err error) {
 func (t *Todo) UpdateTodo() error {
 	cmd := `update todos set content = ?, user_id = ? where id = ?`
 	_, err = Db.Exec(cmd, t.Content, t.UserID, t.ID)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	return err
+}
+
+func (t *Todo) DeleteTodo() error {
+	cmd := `delete from todos where id = ?`
+	_, err = Db.Exec(cmd, t.ID)
 
 	if err != nil {
 		log.Fatalln(err)
