@@ -33,3 +33,31 @@ func signup(w http.ResponseWriter, r *http.Request) {
 func login(w http.ResponseWriter, r *http.Request) {
 	generateHTML(w, nil, "layout", "public_navbar", "login")
 }
+
+func authenticate(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	user, err := models.GetUserByEmail(r.PostFormValue("email"))
+
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/login", 302)
+	}
+
+	if user.Password == models.Encrypt(r.PostFormValue("password")) {
+		session, err := user.CreateSession()
+		if err != nil {
+			log.Println(err)
+		}
+
+		cookie := http.Cookie{
+			Name:     "_cookie",
+			Value:    session.UUID,
+			HttpOnly: true,
+		}
+		http.SetCookie(w, &cookie)
+
+		http.Redirect(w, r, "/", 302)
+	} else {
+		http.Redirect(w, r, "/login", 302)
+	}
+}
